@@ -1,9 +1,14 @@
 const initialState = {
-  answer: "pending",
-  value: "",
+    answer: "pending",
+    value: "",
 };
 const reducer = (state = initialState, action) => {
-  return state;
+    switch (action.type) {
+        case "CHANGE_VALUE":
+            return { ...state, value: action.value };
+        default:
+            return state;
+    }
 };
 
 export default reducer;
