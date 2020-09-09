@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
-import { PIN_CODE } from "../constants";
+import PasswordField from "../components/PasswordField/PasswordField";
 
 function App() {
   const { value, answer } = useSelector((state) => state);
@@ -17,41 +17,16 @@ function App() {
   const Check = () => {
     dispatch({ type: "CHECK" });
   };
-  const getStylesForAnswer = () => {
-    switch (answer) {
-      case "Access Denied":
-        return {
-          color: "#fff",
-          backgroundColor: "red",
-        };
-      case "Access Granted":
-        return {
-          color: "#fff",
-          backgroundColor: "green",
-        };
-      default:
-        return {
-          color: "#000",
-          backgroundColor: "#fff",
-        };
-    }
-  };
+
   return (
     <div className="App">
       <div className="container">
         <div className="combination-lock">
-          <input
-            className="password"
-            placeholder={PIN_CODE}
-            type={answer === "pending" ? "password" : "text"}
-            value={answer === "pending" ? value : answer}
-            style={getStylesForAnswer()}
-            readOnly
-          />
+          <PasswordField />
           <div className="buttons">
-            {Array.from(buttonValues).map((value) => {
+            {Array.from(buttonValues).map((char) => {
               const onClick = () => {
-                switch (value) {
+                switch (char) {
                   case "<":
                     deleteOneChar();
                     break;
@@ -59,12 +34,17 @@ function App() {
                     Check();
                     break;
                   default:
-                    addOneChar(value);
+                    addOneChar(char);
                 }
               };
               return (
-                <button key={value} onClick={onClick} className="btn">
-                  {value}
+                <button
+                  key={char}
+                  onClick={onClick}
+                  disabled={(value.length < 4 && char === "E") ? true : false}
+                  className="btn"
+                >
+                  {char}  
                 </button>
               );
             })}

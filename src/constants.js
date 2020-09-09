@@ -1,2 +1,1 @@
-export const PIN_CODE = "0000";
-
+export const PIN_CODE = "2043";
