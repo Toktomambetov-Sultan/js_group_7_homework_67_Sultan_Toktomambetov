@@ -2,9 +2,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
 import PasswordField from "../components/PasswordField/PasswordField";
+import CharButton from "../components/CharButton/CharButton";
 
 function App() {
-  const { value, answer } = useSelector((state) => state);
+  const { answer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const buttonValues = "123456789<0E";
   const deleteOneChar = () => {
@@ -24,30 +25,15 @@ function App() {
         <div className="combination-lock">
           <PasswordField />
           <div className="buttons">
-            {Array.from(buttonValues).map((char) => {
-              const onClick = () => {
-                switch (char) {
-                  case "<":
-                    deleteOneChar();
-                    break;
-                  case "E":
-                    Check();
-                    break;
-                  default:
-                    addOneChar(char);
-                }
-              };
-              return (
-                <button
-                  key={char}
-                  onClick={onClick}
-                  disabled={(value.length < 4 && char === "E") ? true : false}
-                  className="btn"
-                >
-                  {char}  
-                </button>
-              );
-            })}
+            {Array.from(buttonValues).map((char) => (
+              <CharButton
+                key={char}
+                char={char}
+                addOneChar={addOneChar}
+                Check={Check}
+                deleteOneChar={deleteOneChar}
+              />
+            ))}
           </div>
         </div>
       </div>
