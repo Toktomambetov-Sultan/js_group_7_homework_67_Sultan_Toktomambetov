@@ -5,34 +5,35 @@ import "./App.css";
 function App() {
   const value = useSelector((state) => state.value);
   const dispatch = useDispatch();
+  const buttonValues = "123456789<0E";
   const changeValue = (event) => {
     dispatch({ type: "CHANGE_VALUE", value: event.target.value });
   };
+  const deleteOneChar = () => {
+    dispatch({ type: "DELETE_ONE_CHAR" });
+  };
+  const addOneChar = (char) => {
+    dispatch({ type: "ADD_ONE_CHAR", char });
+  };
   return (
     <div className="App">
-      <div>
-        <div>
-          <input type="text" value={value} onChange={changeValue} />
-        </div>
-        <div>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-        </div>
-        <div>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-        </div>
-        <div>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-        </div>
-        <div>
-          <button>{"<"}</button>
-          <button>0</button>
-          <button>E</button>
+      <div className="container">
+        <div className="combination-lock">
+          <input type="text" className="input" value={value} onChange={changeValue} />
+          <div className="buttons">
+            {Array.from(buttonValues).map(value => {
+              const onClick = () => {
+                switch (value) {
+                  case "<": deleteOneChar(); break;
+                  case "E": alert("1"); break;
+                  default: addOneChar(value);
+                }
+              };
+              return (
+                <button onClick={onClick} className="btn">{value}</button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
